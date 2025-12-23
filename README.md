@@ -226,7 +226,7 @@ npm run build
 
 详细表结构请查看 accounting_system.sql 文件。
 
-12. 作者
+10. 作者
 
 Jialing Liu - Project Developer
 
