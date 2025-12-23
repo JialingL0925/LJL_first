@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.EmployeeMapper">
+    <!-- 定义结果映射，确保字段正确映射 -->
+    <resultMap id="EmployeeResultMap" type="com.example.demo.model.entity.Employee">
+        <id property="employeeId" column="employee_id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+    
+    <!-- 按手机号查询在职员工（登录用） -->
+    <select id="selectByPhone" resultMap="EmployeeResultMap">
+        SELECT 
+            employee_id,
+            name,
+            phone,
+            password,
+            status,
+            role_id
+        FROM employee 
+        WHERE phone = #{phone} AND status = '在职'
+    </select>
+    
+    <!-- 按手机号查询员工（不限制状态，用于检查手机号是否已存在） -->
+    <select id="selectByPhoneAnyStatus" resultMap="EmployeeResultMap">
+        SELECT 
+            employee_id,
+            name,
+            phone,
+            password,
+            status,
+            role_id
+        FROM employee 
+        WHERE phone = #{phone}
+    </select>
+    
+    <!-- 分页查询员工列表（用于员工管理） -->
+    <select id="selectEmployeePage" resultMap="EmployeeResultMap">
+        SELECT 
+            employee_id,
+            name,
+            phone,
+            password,
+            status,
+            role_id
+        FROM employee
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY employee_id DESC
+    </select>
+    
+    <!-- 根据ID查询员工详情（用于编辑） -->
+    <select id="selectById" resultMap="EmployeeResultMap">
+        SELECT 
+            employee_id,
+            name,
+            phone,
+            password,
+            status,
+            role_id
+        FROM employee 
+        WHERE employee_id = #{employeeId}
+    </select>
+    
+    <!-- 根据ID更新员工信息（自定义更新，避免字段映射问题） -->
+    <update id="updateById" parameterType="com.example.demo.model.entity.Employee">
+        UPDATE employee
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+        </set>
+        WHERE employee_id = #{employeeId}
+    </update>
+    
+    <!-- 新增员工（自定义插入，避免字段映射问题） -->
+    <insert id="insert" parameterType="com.example.demo.model.entity.Employee" useGeneratedKeys="true" keyProperty="employeeId" keyColumn="employee_id">
+        INSERT INTO employee (
+            name,
+            phone,
+            password,
+            status
+            <if test="roleId != null">, role_id</if>
+        ) VALUES (
+            #{name},
+            #{phone},
+            #{password},
+            #{status}
+            <if test="roleId != null">, #{roleId}</if>
+        )
+    </insert>
+</mapper>

@@ -1,0 +1,80 @@
+# 依赖目录
+node_modules/
+target/
+dist/
+.mvn/wrapper/maven-wrapper.jar
+
+# 编译文件
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# IDE 文件
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# 日志文件
+logs/
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+
+# 环境配置文件（如果包含敏感信息）
+.env
+.env.local
+.env.production
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# 打包文件（保留源代码，排除编译后的文件）
+# *.jar  # 已在上面的编译文件中排除
+
+# 前端构建产物
+accounting-front/dist/
+accounting-front/node_modules/
+
+# 后端构建产物
+demo/target/
+demo/.mvn/
+
+# 数据库文件（如果包含敏感数据）
+*.db
+*.sqlite
+
+# 个人文档（可选，如果不想上传）
+*.docx
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+

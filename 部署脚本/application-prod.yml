@@ -1,0 +1,52 @@
+# 生产环境配置文件
+# 使用方法：将此文件放在jar包同目录，启动时使用 -Dspring.profiles.active=prod
+
+spring:
+  datasource:
+    # 数据库连接地址
+    url: jdbc:mysql://localhost:3306/accounting_system?useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    # 数据库用户名
+    username: accounting_system
+    # 数据库密码
+    password: 2JcpSz8GwffFhxj6
+    # MySQL驱动（5.7及以下使用com.mysql.jdbc.Driver，8.0+使用com.mysql.cj.jdbc.Driver）
+    driver-class-name: com.mysql.jdbc.Driver
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+# MyBatis-Plus配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml,classpath*:com/example/demo/mapper/*.xml
+  type-aliases-package: com.example.demo.model.entity
+  configuration:
+    map-underscore-to-camel-case: false
+    # 生产环境建议关闭SQL日志，改为：org.apache.ibatis.logging.nop.NoLoggingImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /accounting
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+# JWT配置
+jwt:
+  secret: loginSecret2025
+  expiration: 3600000
+
+# 日志配置（可选）
+logging:
+  level:
+    root: INFO
+    com.example.demo: DEBUG
+  file:
+    name: /www/wwwroot/accounting-backend/logs/application.log
+    max-size: 10MB
+    max-history: 30
+
